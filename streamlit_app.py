@@ -9,12 +9,12 @@ import os
 import koreanize_matplotlib
 
 # ✅ 페이지 구성
-st.title("데이터 시각화 웹 브라우저")
+st.title("NEB 연구원을 위한 데이터 시각화 웹 브라우저")
 
 # ✅ 메인 메뉴
 menu = st.sidebar.selectbox(
     "메뉴를 선택하세요",
-    ["홈", "그래프", "통계 분석"]
+    ["홈", "그래프", "통계 분석", "지도"]
 )
 
 # ✅ 홈 페이지
