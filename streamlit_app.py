@@ -29,8 +29,23 @@ if menu == "홈":
         """,
         unsafe_allow_html=True
     )
-    image_url = "https://raw.githubusercontent.com/namkyu-kim-svg/NEB_Data-Visualization-Web-UI2/main/Screen.png"
-    st.image(image_url, caption="데이터 시각화 웹 앱", use_container_width=True)
+    # 기본 GitHub 경로 설정
+    base_url = "https://raw.githubusercontent.com/namkyu-kim-svg/NEB_Data-Visualization-Web-UI2/main/"
+    
+    # 3개의 이미지를 탭으로 구성
+    tab1, tab2, tab3 = st.tabs(["메인 화면", "분석 화면", "결과 화면"])
+    
+    with tab1:
+        image_url1 = f"{base_url}Screen.png"
+        st.image(image_url1, caption="메인 대시보드", use_container_width=True)
+    
+    with tab2:
+        image_url2 = f"{base_url}Screen2.png"
+        st.image(image_url2, caption="데이터 분석 화면", use_container_width=True)
+    
+    with tab3:
+        image_url3 = f"{base_url}Screen3.png"
+        st.image(image_url3, caption="분석 결과 화면", use_container_width=True)
 
 # ✅ 그래프 페이지
 elif menu == "그래프":
