@@ -31,7 +31,7 @@ if menu == "홈":
         unsafe_allow_html=True
     )
     # 첫 화면 이미지 표시
-    image_url = "https://raw.githubusercontent.com/namkyu-kim-svg/main/main/첫 화면.png"
+    image_url = "https://raw.githubusercontent.com/namkyu-kim-svg/main/main/Screen.png"
     st.image(image_url, caption="데이터 시각화 웹 앱", use_container_width=True)
 
 # **5. 그래프 페이지**
