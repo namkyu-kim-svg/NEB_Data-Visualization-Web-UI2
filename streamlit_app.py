@@ -8,13 +8,9 @@ import matplotlib as mpl  # rc 함수 사용을 위한 라이브러리 추가
 import os
 
 # ✅ 맑은고딕 폰트 설정
-font_path = "https://raw.githubusercontent.com/namkyu-kim-svg/NEB_Data-Visualization-Web-UI2/main//MALGUN.TTF"
-if os.path.exists(font_path):
-    font = fm.FontProperties(fname=font_path).get_name()
-    mpl.rc('font', family=font)  # 전체적으로 폰트 적용
-    plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
-else:
-    st.error("폰트 파일이 존재하지 않습니다.")
+plt.rcParams['font.family'] = 'Malgun Gothic'  # 맑은 고딕 사용
+plt.rcParams['axes.unicode_minus'] = False    # 마이너스 깨짐 방지
+
 
 # ✅ 페이지 구성
 st.title("데이터 시각화 웹 브라우저")
