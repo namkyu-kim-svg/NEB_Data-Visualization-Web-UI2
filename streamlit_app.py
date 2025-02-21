@@ -6,9 +6,7 @@ from scipy.stats import ttest_ind, f_oneway
 import matplotlib.font_manager as fm  # 폰트 설정을 위한 라이브러리
 
 # 나눔고딕 폰트 설정
-font_path = "C:/Windows/Fonts/malgun.ttf"
-font_prop = fm.FontProperties(fname=font_path)
-plt.rc('font', family=font_prop.get_name())
+plt.rc('font', family='sans-serif')
 
 # **2. 페이지 구성**
 st.title("데이터 시각화 웹 브라우저")
