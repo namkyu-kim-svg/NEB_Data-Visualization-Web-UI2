@@ -5,10 +5,10 @@ from io import BytesIO
 from scipy.stats import ttest_ind, f_oneway
 import matplotlib.font_manager as fm  # 폰트 설정을 위한 라이브러리
 
-# **1. 한글 폰트 설정 (맑은 고딕)**
-font_path = "C:/Windows/Fonts/malgun.ttf"  # Windows에서 기본 제공되는 맑은 고딕 폰트 경로
-font_prop = fm.FontProperties(fname=font_path)  # 폰트 속성 생성
-plt.rc('font', family=font_prop.get_name())  # matplotlib에 폰트 적용
+# 나눔고딕 폰트 설정
+font_path = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"  # 리눅스 환경 기준
+font_prop = fm.FontProperties(fname=font_path)
+plt.rc('font', family=font_prop.get_name())
 
 # **2. 페이지 구성**
 st.title("데이터 시각화 웹 브라우저")
