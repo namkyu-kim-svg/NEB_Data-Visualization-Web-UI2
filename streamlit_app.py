@@ -33,7 +33,7 @@ if menu == "홈":
     base_url = "https://raw.githubusercontent.com/namkyu-kim-svg/NEB_Data-Visualization-Web-UI2/main/"
     
     # 3개의 이미지를 탭으로 구성
-    tab1, tab2, tab3 = st.tabs(["메인 화면", "분석 화면", "결과 화면"])
+    tab1, tab2, tab3 = st.tabs(["1", "2", "3"])
     
     with tab1:
         image_url1 = f"{base_url}Screen.png"
