@@ -34,8 +34,6 @@ if menu == "홈":
 image_url = "https://raw.githubusercontent.com/namkyu-kim-svg/main/main/첫%20화면.png"
 st.image(image_url, caption="데이터 시각화 웹 앱", use_container_width=True)
 
-
-
 # **5. 그래프 페이지**
 elif menu == "그래프":
     st.header("그래프 종류를 선택하세요")
