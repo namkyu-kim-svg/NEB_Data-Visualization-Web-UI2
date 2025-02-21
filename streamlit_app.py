@@ -31,8 +31,9 @@ if menu == "홈":
         unsafe_allow_html=True
     )
     # 첫 화면 이미지 표시
-    image_url = "https://github.com/namkyu-kim-svg/NEB_Data-Visualization-Web-UI2/blob/main/Screen.png"
+    image_url = "https://raw.githubusercontent.com/namkyu-kim-svg/NEB_Data-Visualization-Web-UI2/main/Screen.png"
     st.image(image_url, caption="데이터 시각화 웹 앱", use_container_width=True)
+
 
 # **5. 그래프 페이지**
 elif menu == "그래프":
