@@ -6,18 +6,8 @@ from scipy.stats import ttest_ind, f_oneway
 import matplotlib.font_manager as fm
 import matplotlib as mpl
 import os
+import koreanize_matplotlib
 
-# 폰트 경로 설정
-font_dirs = ['./fonts']  # 폰트 파일이 있는 디렉토리
-font_files = fm.findSystemFonts(fontpaths=font_dirs)
-
-# 폰트 로드
-for font_file in font_files:
-    fm.fontManager.addfont(font_file)
-    
-# 기본 폰트 설정
-plt.rcParams['font.family'] = 'Malgun Gothic'
-plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
 # ✅ 페이지 구성
 st.title("데이터 시각화 웹 브라우저")
 
