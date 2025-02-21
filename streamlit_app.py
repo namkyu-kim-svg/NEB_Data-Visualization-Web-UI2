@@ -8,7 +8,7 @@ import matplotlib as mpl  # rc 함수 사용을 위한 라이브러리 추가
 import os
 
 # ✅ 맑은고딕 폰트 설정
-font_path = "./MALGUN.TTF"  # 업로드한 폰트 파일 경로
+font_path = "MALGUN.TTF"
 if os.path.exists(font_path):
     font = fm.FontProperties(fname=font_path).get_name()
     mpl.rc('font', family=font)  # 전체적으로 폰트 적용
