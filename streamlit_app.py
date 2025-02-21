@@ -5,8 +5,10 @@ from io import BytesIO
 from scipy.stats import ttest_ind, f_oneway
 import matplotlib.font_manager as fm  # 폰트 설정을 위한 라이브러리
 
-# 나눔고딕 폰트 설정
-plt.rc('font', family='sans-serif')
+# 맑은고딕 폰트 설정
+font_path = "MALGUN.TTF"  # 업로드한 폰트 파일 경로
+font = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font)
 
 # **2. 페이지 구성**
 st.title("데이터 시각화 웹 브라우저")
