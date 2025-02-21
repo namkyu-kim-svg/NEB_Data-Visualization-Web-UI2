@@ -1,5 +1,5 @@
 streamlit
-matplotlib
+koreanize-matplotlib
 scipy
 pandas
 openpyxl
