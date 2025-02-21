@@ -4,3 +4,4 @@ scipy
 pandas
 openpyxl
 numpy
+seaborn
