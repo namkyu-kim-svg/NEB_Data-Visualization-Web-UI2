@@ -6,7 +6,7 @@ from scipy.stats import ttest_ind, f_oneway
 import matplotlib.font_manager as fm  # 폰트 설정을 위한 라이브러리
 
 # 나눔고딕 폰트 설정
-font_path = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"  # 리눅스 환경 기준
+font_path = "C:/Windows/Fonts/malgun.ttf"
 font_prop = fm.FontProperties(fname=font_path)
 plt.rc('font', family=font_prop.get_name())
 
