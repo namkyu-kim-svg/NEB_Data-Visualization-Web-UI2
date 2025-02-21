@@ -6,16 +6,6 @@ from scipy.stats import ttest_ind, f_oneway
 import matplotlib.font_manager as fm  # 폰트 설정을 위한 라이브러리
 import os
 
-# ✅ 한글 폰트 설정 (프로젝트 내 fonts 폴더 경로 사용)
-font_path = os.path.join(os.path.dirname(__file__), 'fonts', 'MALGUN.TTF')
-
-# ✅ 폰트 파일 존재 여부 확인
-if os.path.exists(font_path):
-    font_prop = fm.FontProperties(fname=font_path)
-    plt.rc('font', family=font_prop.get_name())
-else:
-    st.warning(f"폰트 파일을 찾을 수 없습니다: {font_path}. 기본 폰트를 사용합니다.")
-
 # ✅ 페이지 구성
 st.title("데이터 시각화 웹 브라우저")
 
