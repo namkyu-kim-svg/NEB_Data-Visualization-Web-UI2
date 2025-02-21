@@ -1,10 +1,10 @@
+import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import streamlit as st
-import matplotlib.pyplot as plt
 import os
 
-# ✅ 프로젝트 내부 폰트 경로 지정
-font_path = "./MALGUN.TTF"
+# ✅ fonts 폴더 내 폰트 경로 지정
+font_path = "./fonts/MALGUN.TTF"
 
 # ✅ 폰트 존재 여부 확인
 if os.path.exists(font_path):
@@ -15,11 +15,12 @@ if os.path.exists(font_path):
 else:
     st.error(f"❌ 폰트 파일을 찾을 수 없습니다: {font_path}")
 
-# ✅ 테스트용 그래프
+# ✅ 테스트 그래프
 fig, ax = plt.subplots()
 ax.bar(['A', 'B', 'C', 'D', 'E'], [5, 7, 3, 8, 6], color='skyblue')
-ax.set_title("한글 폰트 테스트")
+ax.set_title("한글 폰트 테스트", fontsize=16)
 st.pyplot(fig)
+
 
 
 
