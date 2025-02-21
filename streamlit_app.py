@@ -1,20 +1,22 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from io import BytesIO
-from scipy.stats import ttest_ind, f_oneway
-import matplotlib.font_manager as fm  # 폰트 설정을 위한 라이브러리
-import matplotlib as mpl  # rc 함수 사용을 위한 라이브러리 추가
+import matplotlib.font_manager as fm
 import os
 
-# ✅ 맑은고딕 폰트 직접 불러오기
-font_path = "./MALGUN.TTF"
-if os.path.exists(font_path):
-    font_prop = fm.FontProperties(fname=font_path)
-    plt.rcParams['font.family'] = font_prop.get_name()
-    plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
+# ✅ 시스템에서 사용 가능한 한글 폰트 찾기
+font_list = [f.name for f in fm.fontManager.ttflist if 'Gothic' in f.name or 'Nanum' in f.name or 'Batang' in f.name]
+
+# 한글 폰트가 하나라도 있으면 사용
+if font_list:
+    plt.rcParams['font.family'] = font_list[0]  # 첫 번째 한글 폰트 사용
 else:
-    st.error(f"❌ 폰트 파일을 찾을 수 없습니다: {font_path}")
+    plt.rcParams['font.family'] = 'DejaVu Sans'  # 기본 폰트 사용 (한글이 깨질 수 있음)
+
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 깨짐 방지
+
+# ✅ 사용 중인 폰트 표시
+st.write(f"현재 사용 중인 폰트: {plt.rcParams['font.family']}")
 
 # ✅ 테스트용 그래프
 st.title("한글 폰트 테스트")
