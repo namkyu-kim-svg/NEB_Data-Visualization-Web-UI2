@@ -1,8 +1,8 @@
 import streamlit as st
-from home import show as show_home
-from graph import show as show_graph
-from statistics import show as show_statistics
-from map_page import show as show_map
+from Home import show as show_home
+from Graph import show as show_graph
+from Statistics import show as show_statistics
+from Map import show as show_map
 
 st.sidebar.title("메뉴")
 page = st.sidebar.selectbox("페이지 선택", ["홈", "그래프", "통계 분석", "지도"])
