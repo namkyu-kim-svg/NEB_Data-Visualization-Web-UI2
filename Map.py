@@ -139,7 +139,7 @@ def show():
                     ).add_to(m)
         
         st.write("지도:")
-        st_folium(m, width=700, height=500)
+        st_folium(m, width=1400, height=1000)
 
 if __name__ == '__main__':
     show()
