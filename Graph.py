@@ -86,9 +86,9 @@ def show():
         custom_title = st.text_input("그래프 타이틀", "내 그래프")
         col9, col10 = st.columns(2)
         with col9:
-        title_fontsize = st.number_input("타이틀 폰트 크기", min_value=1, max_value=50, value=16, step=1)
+            title_fontsize = st.number_input("타이틀 폰트 크기", min_value=1, max_value=50, value=16, step=1)
         with col10:
-        title_pad = st.number_input("타이틀 간격", min_value=0, max_value=100, value=10, step=1)
+            title_pad = st.number_input("타이틀 간격", min_value=0, max_value=100, value=10, step=1)
 
         # 그래프 크기 설정
         width = st.number_input("그래프 너비 (inch)", min_value=1.0, max_value=20.0, value=10.0, step=0.5)
