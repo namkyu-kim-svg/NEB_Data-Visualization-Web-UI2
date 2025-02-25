@@ -31,16 +31,13 @@ def show():
     
     # 지도 스타일 선택 (Folium 타일 레이어)
     tile_options = {
-        "OpenStreetMap": {"tiles": "OpenStreetMap"},
-        "Stamen Terrain": {"tiles": "Stamen Terrain"},
-        "Stamen Toner": {"tiles": "Stamen Toner"},
-        "Stamen Watercolor": {"tiles": "Stamen Watercolor"},
-        "CartoDB Positron": {"tiles": "CartoDB positron"},
-        "CartoDB Dark_Matter": {"tiles": "CartoDB dark_matter"},
-        "Esri WorldImagery": {
-            "tiles": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-            "attr": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
-        }
+        "OpenStreetMap": "OpenStreetMap",
+        "Stamen Terrain": "Stamen Terrain",
+        "Stamen Toner": "Stamen Toner",
+        "Stamen Watercolor": "Stamen Watercolor",
+        "CartoDB Positron": "CartoDB Positron",
+        "CartoDB Dark_Matter": "CartoDB Dark_Matter",
+        "Esri WorldImagery": "Esri.WorldImagery"
     }
 
     selected_tile = st.selectbox("지도 스타일 선택", list(tile_options.keys()))
