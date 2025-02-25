@@ -24,9 +24,8 @@ def show():
         file_name="sample_data.csv",
         mime="text/csv"
     )
-
     st.divider()  # 구분선
-
+    
     # 4) 파일 업로드
     uploaded_file = st.file_uploader("CSV 또는 Excel 파일을 업로드하세요", type=["csv", "xlsx"])
 
@@ -51,7 +50,6 @@ def show():
             "그래프 종류",
             ["막대그래프", "꺾은선 그래프", "Scatter Plot", "Stack 막대그래프", "누적 그래프"]
         )
-
         # ─────────────────────────────────────────────────
         # X축 설정
         col1, col2 = st.columns(2)
@@ -59,6 +57,18 @@ def show():
             x_col = st.selectbox("X축 데이터 선택", data.columns)
         with col2:
             x_label = st.text_input("X축 라벨", x_col)
+
+        # Y축 설정: 일반 그래프는 단일 선택, 스택 그래프는 다중 선택
+        if graph_type != "Stack 막대그래프":
+            col3, col4 = st.columns(2)
+            with col3:
+                y_col = st.selectbox("Y축 데이터 선택", data.columns)
+            with col4:
+                y_label = st.text_input("Y축 라벨", y_col)
+        else:
+            # 스택 막대그래프의 경우 여러 컬럼 선택
+            y_label = st.text_input("Y축 라벨 (예: 여러 값)", "여러 값")
+            stack_y = st.multiselect("Stack 막대그래프: Y축 데이터 선택 (여러 컬럼 선택)", data.columns)
 
         col5, col6 = st.columns(2)
         with col5:
@@ -100,7 +110,9 @@ def show():
         if st.button("그래프 그리기"):
             fig, ax = plt.subplots(figsize=(width, height))
 
-            # 그래프 타입별 그리기
+         # 그래프 그리기 버튼
+        if st.button("그래프 그리기"):
+            fig, ax = plt.subplots(figsize=(width, height))
             if graph_type == "막대그래프":
                 ax.bar(data[x_col], data[y_col], color=color)
             elif graph_type == "꺾은선 그래프":
@@ -108,19 +120,26 @@ def show():
             elif graph_type == "Scatter Plot":
                 ax.scatter(data[x_col], data[y_col], color=color)
             elif graph_type == "Stack 막대그래프":
-                data.groupby(x_col)[y_col].sum().plot(kind="bar", stacked=True, ax=ax, color=color)
+                if len(stack_y) < 2:
+                    st.warning("Stacked bar chart를 위해서는 최소 2개 이상의 Y축 데이터를 선택하세요.")
+                else:
+                    # 그룹별로 선택한 Y 컬럼의 합계를 구해 스택 형태로 그리기
+                    pivot_data = data.groupby(x_col)[stack_y].sum()
+                    pivot_data.plot(kind="bar", stacked=True, ax=ax)
             elif graph_type == "누적 그래프":
                 ax.fill_between(data[x_col], data[y_col], color=color, alpha=0.5)
 
-            # 타이틀, 라벨 설정
             ax.set_title(custom_title, fontsize=title_fontsize, pad=title_pad)
             ax.set_xlabel(x_label, fontsize=x_label_fontsize, labelpad=x_label_pad)
-            ax.set_ylabel(y_label, fontsize=y_label_fontsize, labelpad=y_label_pad)
+            # 스택 그래프면 y_label은 전체 레이블로, 아니면 선택한 컬럼 이름 사용
+            if graph_type != "Stack 막대그래프":
+                ax.set_ylabel(y_label, fontsize=y_label_fontsize, labelpad=y_label_pad)
+            else:
+                ax.set_ylabel(y_label, fontsize=y_label_fontsize, labelpad=y_label_pad)
 
-            # 화면에 그래프 표시
             st.pyplot(fig)
 
-            # PNG 파일 다운로드 기능
+            # PNG 파일 다운로드
             buf = BytesIO()
             fig.savefig(buf, format="png")
             st.download_button(
@@ -130,8 +149,6 @@ def show():
                 mime="image/png"
             )
 
-# 단독 실행 시 show() 함수 실행
 if __name__ == '__main__':
     show()
-
 
