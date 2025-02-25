@@ -120,8 +120,9 @@ def show():
                         location=[row['lat_dec'], row['lon_dec']],
                         popup=str(row[label_col]),
                         tooltip=str(row[label_col]),
-                        icon=folium.Icon(color="blue", icon="info-sign")
+                        icon=folium.Icon(color="green", icon="star", prefix="fa")
                     ).add_to(m)
+
         elif mode == "위경도 농도 시각화":
             # 농도에 따라 CircleMarker 추가 (농도 값에 따라 반지름 조정)
             for _, row in data.iterrows():
