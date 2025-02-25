@@ -1,7 +1,12 @@
 streamlit
-koreanize-matplotlib
-scipy
 pandas
-openpyxl
 numpy
 seaborn
+openpyxl       # Excel 파일 처리용
+matplotlib
+scipy          # t-test, ANOVA 등 통계분석
+networkx       # 정점도(그래프) 분석
+folium         # 지도 시각화
+streamlit-folium
+pydeck         # (선택) Streamlit에서 Pydeck 사용 시
+koreanize-matplotlib  # (선택) 한글 폰트 적용 시
