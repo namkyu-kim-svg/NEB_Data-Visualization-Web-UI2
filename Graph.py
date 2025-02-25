@@ -26,7 +26,17 @@ def show():
 
     st.write("위 버튼을 클릭해 샘플 데이터를 다운로드한 후, 아래에 업로드하여 그래프를 시각화해 보세요.")
 
-    # 그래프 종류 선택
+    # 1) 그래프 크기 설정
+    width = st.number_input("그래프 너비 (inch)", min_value=1.0, max_value=20.0, value=10.0, step=0.5)
+    height = st.number_input("그래프 높이 (inch)", min_value=1.0, max_value=20.0, value=6.0, step=0.5)
+
+    # 2) 그래프 색상 선택
+    color = st.color_picker("그래프 색상", "#87CEEB")  # 기본값은 'skyblue' 계열
+
+    # 3) 그래프 타이틀 입력
+    custom_title = st.text_input("그래프 타이틀", "내 그래프")
+
+    # 4) 그래프 종류 선택
     graph_type = st.selectbox(
         "그래프 종류",
         ["막대그래프", "꺾은선 그래프", "Scatter Plot", "Stack 막대그래프", "누적 그래프"]
@@ -49,27 +59,38 @@ def show():
         x_col = st.selectbox("X축 데이터 선택", data.columns)
         y_col = st.selectbox("Y축 데이터 선택", data.columns)
 
-        fig, ax = plt.subplots(figsize=(10, 6))
+        # 6) Matplotlib 그래프 그리기
+        fig, ax = plt.subplots(figsize=(width, height))
 
-        # 그래프 타입에 따른 시각화
         if graph_type == "막대그래프":
-            ax.bar(data[x_col], data[y_col], color="skyblue")
+            ax.bar(data[x_col], data[y_col], color=color)
         elif graph_type == "꺾은선 그래프":
-            ax.plot(data[x_col], data[y_col], color="green", marker="o")
+            ax.plot(data[x_col], data[y_col], color=color, marker="o")
         elif graph_type == "Scatter Plot":
-            ax.scatter(data[x_col], data[y_col], color="red")
+            ax.scatter(data[x_col], data[y_col], color=color)
         elif graph_type == "Stack 막대그래프":
-            # 같은 x_col을 기준으로 y_col을 합산하여 스택 형태로 시각화
-            data.groupby(x_col)[y_col].sum().plot(kind="bar", stacked=True, ax=ax)
+            data.groupby(x_col)[y_col].sum().plot(kind="bar", stacked=True, ax=ax, color=color)
         elif graph_type == "누적 그래프":
-            ax.fill_between(data[x_col], data[y_col], color="orange", alpha=0.5)
+            ax.fill_between(data[x_col], data[y_col], color=color, alpha=0.5)
 
-        ax.set_title(graph_type, fontsize=16)
+        ax.set_title(custom_title, fontsize=16)
         ax.set_xlabel(x_col, fontsize=12)
         ax.set_ylabel(y_col, fontsize=12)
+
+        # 7) 화면에 그래프 표시
         st.pyplot(fig)
 
-# 이 파일을 단독으로 실행했을 때 동작하도록 하는 코드
+        # 8) PNG 파일 다운로드 기능
+        buf = BytesIO()
+        fig.savefig(buf, format="png")
+        st.download_button(
+            label="PNG 파일 다운로드",
+            data=buf.getvalue(),
+            file_name="mygraph.png",
+            mime="image/png"
+        )
+
+# 단독 실행 시 show() 함수 실행
 if __name__ == '__main__':
     show()
 
