@@ -70,8 +70,6 @@ def show():
         col3, col4 = st.columns(2)
         with col3:
             y_col = st.selectbox("Y축 데이터 선택", data.columns)
-            y_label_fontsize = st.number_input("Y축 라벨 폰트 크기", min_value=1, max_value=40, value=12, step=1)
-            y_label_pad = st.number_input("Y축 라벨 간격", min_value=0, max_value=50, value=5, step=1)
         with col4:
             y_label = st.text_input("Y축 라벨", y_col)
 
