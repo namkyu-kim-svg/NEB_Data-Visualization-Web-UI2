@@ -52,13 +52,19 @@ def show():
             ["막대그래프", "꺾은선 그래프", "Scatter Plot", "Stack 막대그래프", "누적 그래프"]
         )
 
-        # X축, Y축 컬럼 선택
-        x_col = st.selectbox("X축 데이터 선택", data.columns)
-        y_col = st.selectbox("Y축 데이터 선택", data.columns)
+        # X축 관련 설정 (Selectbox + Text Input) 한 줄에 배치
+        col1, col2 = st.columns(2)
+        with col1:
+            x_col = st.selectbox("X축 데이터 선택", data.columns)
+        with col2:
+            x_label = st.text_input("X축 라벨", x_col)
 
-        # X축/ Y축 라벨 수동 입력 (기본값은 컬럼명)
-        x_label = st.text_input("X축 라벨", x_col)
-        y_label = st.text_input("Y축 라벨", y_col)
+        # Y축 관련 설정 (Selectbox + Text Input) 한 줄에 배치
+        col3, col4 = st.columns(2)
+        with col3:
+            y_col = st.selectbox("Y축 데이터 선택", data.columns)
+        with col4:
+            y_label = st.text_input("Y축 라벨", y_col)
 
         # 그래프 타이틀 입력
         custom_title = st.text_input("그래프 타이틀", "내 그래프")
