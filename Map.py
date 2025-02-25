@@ -29,19 +29,31 @@ def show():
     # 지도 시각화 모드 선택
     mode = st.selectbox("지도 시각화 모드 선택", ["정점도", "위경도 농도 시각화"])
     
-    # 지도 스타일 선택 (Folium 타일 레이어)
+    # 지도 스타일 선택 (타일 레이어와 attribution 포함)
     tile_options = {
-        "OpenStreetMap": "OpenStreetMap",
-        "Stamen Terrain": "Stamen Terrain",
-        "Stamen Toner": "Stamen Toner",
-        "Stamen Watercolor": "Stamen Watercolor",
-        "CartoDB Positron": "CartoDB Positron",
-        "CartoDB Dark_Matter": "CartoDB Dark_Matter",
-        "Esri WorldImagery": "Esri.WorldImagery"
+        "OpenStreetMap": {"tiles": "OpenStreetMap"},
+        "Stamen Terrain": {
+            "tiles": "Stamen Terrain",
+            "attr": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under CC BY 3.0. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under ODbL.'
+        },
+        "Stamen Toner": {
+            "tiles": "Stamen Toner",
+            "attr": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under CC BY 3.0. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under ODbL.'
+        },
+        "Stamen Watercolor": {
+            "tiles": "Stamen Watercolor",
+            "attr": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under CC BY 3.0. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under CC BY 3.0.'
+        },
+        "CartoDB Positron": {"tiles": "CartoDB Positron"},
+        "CartoDB Dark_Matter": {"tiles": "CartoDB Dark_Matter"},
+        "Esri WorldImagery": {
+            "tiles": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+            "attr": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+        }
     }
-
+    
     selected_tile = st.selectbox("지도 스타일 선택", list(tile_options.keys()))
-    tiles = tile_options[selected_tile]
+    tile_opts = tile_options[selected_tile]
     
     st.write("CSV 또는 Excel 파일을 업로드해 주세요.")
     uploaded_file = st.file_uploader("파일 업로드", type=["csv", "xlsx"])
@@ -69,19 +81,6 @@ def show():
             avg_lat = data['lat_dec'].mean() if data['lat_dec'].notnull().any() else 36.5
             avg_lon = data['lon_dec'].mean() if data['lon_dec'].notnull().any() else 127.5
             
-            # Folium 지도 생성
-            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tiles)
-            
-            # 각 정점을 Marker로 추가
-            for _, row in data.iterrows():
-                if pd.notnull(row['lat_dec']) and pd.notnull(row['lon_dec']):
-                    folium.Marker(
-                        location=[row['lat_dec'], row['lon_dec']],
-                        popup=str(row[label_col]),
-                        tooltip=str(row[label_col]),
-                        icon=folium.Icon(color="blue", icon="info-sign")
-                    ).add_to(m)
-        
         elif mode == "위경도 농도 시각화":
             # 위경도 농도 시각화: 위도, 경도, 농도 컬럼 선택
             lat_col = st.selectbox("위도 컬럼 선택", data.columns)
@@ -101,13 +100,32 @@ def show():
             
             avg_lat = data['lat_dec'].mean() if data['lat_dec'].notnull().any() else 36.5
             avg_lon = data['lon_dec'].mean() if data['lon_dec'].notnull().any() else 127.5
-            
-            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tiles)
-            
+        
+        # Folium 지도 생성 (타일 옵션에 attribution이 있으면 custom 방식 사용)
+        if "attr" in tile_opts:
+            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=None)
+            folium.TileLayer(
+                tiles=tile_opts["tiles"],
+                attr=tile_opts["attr"],
+                name=selected_tile
+            ).add_to(m)
+        else:
+            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tile_opts["tiles"])
+        
+        if mode == "정점도":
+            # 각 정점을 Marker로 추가
+            for _, row in data.iterrows():
+                if pd.notnull(row['lat_dec']) and pd.notnull(row['lon_dec']):
+                    folium.Marker(
+                        location=[row['lat_dec'], row['lon_dec']],
+                        popup=str(row[label_col]),
+                        tooltip=str(row[label_col]),
+                        icon=folium.Icon(color="blue", icon="info-sign")
+                    ).add_to(m)
+        elif mode == "위경도 농도 시각화":
             # 농도에 따라 CircleMarker 추가 (농도 값에 따라 반지름 조정)
             for _, row in data.iterrows():
                 if pd.notnull(row['lat_dec']) and pd.notnull(row['lon_dec']):
-                    # 농도 값을 반영하여 원의 크기를 결정 (예: 농도*0.5, 최소 5, 최대 20)
                     radius = max(5, min(row[conc_col] * 0.5, 20))
                     folium.CircleMarker(
                         location=[row['lat_dec'], row['lon_dec']],
