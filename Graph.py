@@ -52,8 +52,9 @@ def show():
             ["막대그래프", "꺾은선 그래프", "Scatter Plot", "Stack 막대그래프", "누적 그래프"]
         )
 
-        # X축 관련 설정 (Selectbox + Text Input) 한 줄에 배치
-       col1, col2 = st.columns(2)
+        # ─────────────────────────────────────────────────
+        # X축 설정
+        col1, col2 = st.columns(2)
         with col1:
             x_col = st.selectbox("X축 데이터 선택", data.columns)
             x_label_fontsize = st.number_input("X축 라벨 폰트 크기", min_value=1, max_value=40, value=12, step=1)
@@ -69,9 +70,12 @@ def show():
             y_label_pad = st.number_input("Y축 라벨 간격", min_value=0, max_value=50, value=5, step=1)
         with col4:
             y_label = st.text_input("Y축 라벨", y_col)
+        # ─────────────────────────────────────────────────
 
-        # 그래프 타이틀 입력
+        # 그래프 타이틀
         custom_title = st.text_input("그래프 타이틀", "내 그래프")
+        title_fontsize = st.number_input("타이틀 폰트 크기", min_value=1, max_value=50, value=16, step=1)
+        title_pad = st.number_input("타이틀 간격", min_value=0, max_value=100, value=10, step=1)
 
         # 그래프 크기 설정
         width = st.number_input("그래프 너비 (inch)", min_value=1.0, max_value=20.0, value=10.0, step=0.5)
@@ -84,6 +88,7 @@ def show():
         if st.button("그래프 그리기"):
             fig, ax = plt.subplots(figsize=(width, height))
 
+            # 그래프 타입별 그리기
             if graph_type == "막대그래프":
                 ax.bar(data[x_col], data[y_col], color=color)
             elif graph_type == "꺾은선 그래프":
@@ -95,10 +100,12 @@ def show():
             elif graph_type == "누적 그래프":
                 ax.fill_between(data[x_col], data[y_col], color=color, alpha=0.5)
 
-            ax.set_title(custom_title, fontsize=16)
-            ax.set_xlabel(x_label, fontsize=12)
-            ax.set_ylabel(y_label, fontsize=12)
+            # 타이틀, 라벨 설정
+            ax.set_title(custom_title, fontsize=title_fontsize, pad=title_pad)
+            ax.set_xlabel(x_label, fontsize=x_label_fontsize, labelpad=x_label_pad)
+            ax.set_ylabel(y_label, fontsize=y_label_fontsize, labelpad=y_label_pad)
 
+            # 화면에 그래프 표시
             st.pyplot(fig)
 
             # PNG 파일 다운로드 기능
