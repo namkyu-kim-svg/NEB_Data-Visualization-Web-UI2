@@ -29,7 +29,7 @@ def show():
     # 지도 시각화 모드 선택
     mode = st.selectbox("지도 시각화 모드 선택", ["정점도", "위경도 농도 시각화"])
     
-    # 지도 스타일 선택 (타일 레이어와 attribution 포함)
+    # 지도 스타일 선택 (타일 레이어 및 attribution 정보 포함)
     tile_options = {
         "OpenStreetMap": {"tiles": "OpenStreetMap"},
         "Stamen Terrain": {
@@ -51,7 +51,6 @@ def show():
             "attr": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
         }
     }
-    
     selected_tile = st.selectbox("지도 스타일 선택", list(tile_options.keys()))
     tile_opts = tile_options[selected_tile]
     
@@ -68,16 +67,18 @@ def show():
         st.dataframe(data.head())
         
         if mode == "정점도":
-            # 정점도: 위도, 경도, 정점 라벨 선택
+            # 정점도: 위도, 경도, 정점 라벨 컬럼 선택
             lat_col = st.selectbox("위도 컬럼 선택", data.columns)
             lon_col = st.selectbox("경도 컬럼 선택", data.columns)
             label_col = st.selectbox("정점 이름(라벨) 컬럼 선택", data.columns)
+            # 마커 색상 선택 (미리 정의된 색상)
+            marker_color = st.selectbox("마커 색상 선택", ["blue", "green", "red", "purple", "orange"])
             
             # 좌표를 십진법으로 변환
             data['lat_dec'] = data[lat_col].apply(parse_coord)
             data['lon_dec'] = data[lon_col].apply(parse_coord)
             
-            # 지도 중심: 변환된 좌표의 평균값(실패 시 기본값 사용)
+            # 지도 중심: 변환된 좌표의 평균값 (실패 시 기본값 사용)
             avg_lat = data['lat_dec'].mean() if data['lat_dec'].notnull().any() else 36.5
             avg_lon = data['lon_dec'].mean() if data['lon_dec'].notnull().any() else 127.5
             
@@ -87,11 +88,9 @@ def show():
             lon_col = st.selectbox("경도 컬럼 선택", data.columns)
             conc_col = st.selectbox("농도 컬럼 선택", data.columns)
             
-            # 좌표를 십진법으로 변환
             data['lat_dec'] = data[lat_col].apply(parse_coord)
             data['lon_dec'] = data[lon_col].apply(parse_coord)
             
-            # 농도 컬럼은 숫자형으로 변환
             try:
                 data[conc_col] = pd.to_numeric(data[conc_col])
             except Exception as e:
@@ -110,21 +109,27 @@ def show():
                 name=selected_tile
             ).add_to(m)
         else:
-            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tile_opts["tiles"])
+            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tile_opts)
         
         if mode == "정점도":
-            # 각 정점을 Marker로 추가
+            # 각 정점을 Marker와 함께 DivIcon으로 라벨 표시
             for _, row in data.iterrows():
                 if pd.notnull(row['lat_dec']) and pd.notnull(row['lon_dec']):
+                    # 마커 추가
                     folium.Marker(
                         location=[row['lat_dec'], row['lon_dec']],
-                        popup=str(row[label_col]),
-                        tooltip=str(row[label_col]),
-                        icon=folium.Icon(color="green", icon="star", prefix="fa")
+                        icon=folium.Icon(color=marker_color, icon="info-sign", prefix="fa")
                     ).add_to(m)
-
+                    # 정점 이름을 DivIcon으로 항상 보이게 추가
+                    folium.map.Marker(
+                        [row['lat_dec'], row['lon_dec']],
+                        icon=folium.DivIcon(
+                            html=f"""<div style="font-size:12px; font-weight:bold; color:{marker_color};">
+                            {row[label_col]}</div>"""
+                        )
+                    ).add_to(m)
         elif mode == "위경도 농도 시각화":
-            # 농도에 따라 CircleMarker 추가 (농도 값에 따라 반지름 조정)
+            # 농도에 따라 CircleMarker 추가 (농도 값에 따라 반지름 조절)
             for _, row in data.iterrows():
                 if pd.notnull(row['lat_dec']) and pd.notnull(row['lon_dec']):
                     radius = max(5, min(row[conc_col] * 0.5, 20))
@@ -140,7 +145,7 @@ def show():
                     ).add_to(m)
         
         st.write("지도:")
-        st_folium(m, width=1400, height=1000)
+        st_folium(m, width=1200, height=500)
 
 if __name__ == '__main__':
     show()
