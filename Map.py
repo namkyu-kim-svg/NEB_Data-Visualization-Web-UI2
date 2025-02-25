@@ -104,6 +104,7 @@ def show():
         
         # Folium 지도 생성 (타일 옵션에 attribution이 있으면 custom 방식 사용)
         if "attr" in tile_opts:
+            # 커스텀 타일(Esri, Stamen 등) - attribution 필요
             m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=None)
             folium.TileLayer(
                 tiles=tile_opts["tiles"],
@@ -111,8 +112,8 @@ def show():
                 name=selected_tile
             ).add_to(m)
         else:
-            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tile_opts)
-        
+            # 일반 타일(OpenStreetMap, CartoDB 등) - attribution 불필요
+            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tile_opts["tiles"])
         if mode == "정점도":
             # 각 정점을 Marker와 함께 DivIcon으로 라벨 표시
             for _, row in data.iterrows():
