@@ -57,11 +57,15 @@ def show():
         col1, col2 = st.columns(2)
         with col1:
             x_col = st.selectbox("X축 데이터 선택", data.columns)
-            x_label_fontsize = st.number_input("X축 라벨 폰트 크기", min_value=1, max_value=40, value=12, step=1)
-            x_label_pad = st.number_input("X축 라벨 간격", min_value=0, max_value=50, value=5, step=1)
         with col2:
             x_label = st.text_input("X축 라벨", x_col)
 
+        col5, col6 = st.columns(2)
+        with col5:
+            x_label_fontsize = st.number_input("X축 라벨 폰트 크기", min_value=1, max_value=40, value=12, step=1)
+        with col6:
+            x_label_pad = st.number_input("X축 라벨 간격", min_value=0, max_value=50, value=5, step=1)
+        
         # Y축 설정
         col3, col4 = st.columns(2)
         with col3:
