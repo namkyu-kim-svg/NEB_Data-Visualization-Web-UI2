@@ -82,12 +82,13 @@ def show():
             y_label_pad = st.number_input("Y축 라벨 간격", min_value=0, max_value=50, value=5, step=1)
         # ─────────────────────────────────────────────────
 
-        # 그래프 타이틀
-        custom_title = st.text_input("그래프 타이틀", "내 그래프")
-        col9, col10 = st.columns(2)
-        with col9:
+        # 그래프 타이틀, 폰트 크기, 간격을 한 줄에 배치
+        colT1, colT2, colT3 = st.columns([2, 1, 1])  # 비율 [2, 1, 1]로 첫 칸을 좀 더 넓게 설정
+        with colT1:
+            custom_title = st.text_input("그래프 타이틀", "내 그래프")
+        with colT2:
             title_fontsize = st.number_input("타이틀 폰트 크기", min_value=1, max_value=50, value=16, step=1)
-        with col10:
+        with colT3:
             title_pad = st.number_input("타이틀 간격", min_value=0, max_value=100, value=10, step=1)
 
         # 그래프 크기 설정
