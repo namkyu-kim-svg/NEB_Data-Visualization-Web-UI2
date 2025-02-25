@@ -32,23 +32,6 @@ def show():
     # 지도 스타일 선택 (Folium 타일 레이어)
     tile_options = {
         "OpenStreetMap": {"tiles": "OpenStreetMap"},
-        "Stamen Terrain": {
-            "tiles": "Stamen Terrain",
-            "attr": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under CC BY 3.0. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under ODbL.'
-        },
-        "Stamen Toner": {
-            "tiles": "Stamen Toner",
-            "attr": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under CC BY 3.0. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under ODbL.'
-        },
-        "Stamen Watercolor": {
-            "tiles": "Stamen Watercolor",
-            "attr": 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under CC BY 3.0. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under CC BY 3.0.'
-        },
-        "CartoDB Positron": {"tiles": "CartoDB positron"},
-        "CartoDB Dark_Matter": {"tiles": "CartoDB dark_matter"},
-        "Esri WorldImagery": {
-            "tiles": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-            "attr": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
         }
     }
 
