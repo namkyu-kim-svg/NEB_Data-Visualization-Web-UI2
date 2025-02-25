@@ -71,14 +71,16 @@ def show():
             lat_col = st.selectbox("위도 컬럼 선택", data.columns)
             lon_col = st.selectbox("경도 컬럼 선택", data.columns)
             label_col = st.selectbox("정점 이름(라벨) 컬럼 선택", data.columns)
-            # 마커 색상 선택 (미리 정의된 색상)
+            # 마커 색상 선택
             marker_color = st.selectbox("마커 색상 선택", ["blue", "green", "red", "purple", "orange"])
+            # 정점명 글씨 색상 선택 (흰색/검정)
+            text_color = st.selectbox("정점명 글씨 색상 선택", ["black", "white"])
             
             # 좌표를 십진법으로 변환
             data['lat_dec'] = data[lat_col].apply(parse_coord)
             data['lon_dec'] = data[lon_col].apply(parse_coord)
             
-            # 지도 중심: 변환된 좌표의 평균값 (실패 시 기본값 사용)
+            # 지도 중심: 변환된 좌표의 평균값(실패 시 기본값 사용)
             avg_lat = data['lat_dec'].mean() if data['lat_dec'].notnull().any() else 36.5
             avg_lon = data['lon_dec'].mean() if data['lon_dec'].notnull().any() else 127.5
             
@@ -115,16 +117,16 @@ def show():
             # 각 정점을 Marker와 함께 DivIcon으로 라벨 표시
             for _, row in data.iterrows():
                 if pd.notnull(row['lat_dec']) and pd.notnull(row['lon_dec']):
-                    # 마커 추가
+                    # 스타 모양 아이콘 사용 (Font Awesome star 아이콘)
                     folium.Marker(
                         location=[row['lat_dec'], row['lon_dec']],
-                        icon=folium.Icon(color=marker_color, icon="info-sign", prefix="fa")
+                        icon=folium.Icon(color=marker_color, icon="star", prefix="fa")
                     ).add_to(m)
-                    # 정점 이름을 DivIcon으로 항상 보이게 추가
+                    # 정점 이름을 DivIcon으로 항상 보이게 추가 (가로 쓰기 및 글씨 색상 선택)
                     folium.map.Marker(
                         [row['lat_dec'], row['lon_dec']],
                         icon=folium.DivIcon(
-                            html=f"""<div style="font-size:12px; font-weight:bold; color:{marker_color};">
+                            html=f"""<div style="white-space: nowrap; font-size:12px; font-weight:bold; color:{text_color};">
                             {row[label_col]}</div>"""
                         )
                     ).add_to(m)
@@ -145,7 +147,7 @@ def show():
                     ).add_to(m)
         
         st.write("지도:")
-        st_folium(m, width=1200, height=500)
+        st_folium(m, width=700, height=500)
 
 if __name__ == '__main__':
     show()
