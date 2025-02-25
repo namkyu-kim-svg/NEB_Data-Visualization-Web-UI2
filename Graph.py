@@ -53,16 +53,20 @@ def show():
         )
 
         # X축 관련 설정 (Selectbox + Text Input) 한 줄에 배치
-        col1, col2 = st.columns(2)
+       col1, col2 = st.columns(2)
         with col1:
             x_col = st.selectbox("X축 데이터 선택", data.columns)
+            x_label_fontsize = st.number_input("X축 라벨 폰트 크기", min_value=1, max_value=40, value=12, step=1)
+            x_label_pad = st.number_input("X축 라벨 간격", min_value=0, max_value=50, value=5, step=1)
         with col2:
             x_label = st.text_input("X축 라벨", x_col)
 
-        # Y축 관련 설정 (Selectbox + Text Input) 한 줄에 배치
+        # Y축 설정
         col3, col4 = st.columns(2)
         with col3:
             y_col = st.selectbox("Y축 데이터 선택", data.columns)
+            y_label_fontsize = st.number_input("Y축 라벨 폰트 크기", min_value=1, max_value=40, value=12, step=1)
+            y_label_pad = st.number_input("Y축 라벨 간격", min_value=0, max_value=50, value=5, step=1)
         with col4:
             y_label = st.text_input("Y축 라벨", y_col)
 
