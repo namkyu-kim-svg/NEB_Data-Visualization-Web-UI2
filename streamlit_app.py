@@ -39,7 +39,4 @@ elif page == "지도":
             unsafe_allow_html=True
         )
 
-# 단독 실행 시 테스트용
-if __name__ == '__main__':
-    show()
 
