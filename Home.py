@@ -46,14 +46,20 @@ def show():
     with col2:
         st.markdown(
             """
-            <p style="text-align: right; font-size:28px; font-weight:bold; margin-top:5px;">
-                <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
-                   Py50: Generate Dose-Response Curve 활용<br>
-                   [기능]<br>
-                     1. LC50 Cakculator<br>
-                   2. Plot Curve<br>
-                   3. Statistics Calculator<br>
-                   4. Molecular Drawer<br>
+        <!-- 제목(링크) 부분 -->
+        <div style="text-align: left; font-size:28px; font-weight:bold; margin-top:5px;">
+            <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
+                Py50: Generate Dose-Response Curve 활용
+            </a>
+        </div>
+
+        <!-- 기능 목록 부분 -->
+            [기능]<br>
+            1. LC50 Calculator<br>
+            2. Plot Curve<br>
+            3. Statistics Calculator<br>
+            4. Molecular Drawer
+        </div>
                 </a>
             </p>
             """,
