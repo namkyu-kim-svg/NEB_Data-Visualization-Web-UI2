@@ -38,7 +38,7 @@ def show():
     logo_url = "https://raw.githubusercontent.com/namkyu-kim-svg/NEB_Data-Visualization-Web-UI2/main/py50logo.png"
 
     # 2개 컬럼으로 나누어 왼쪽은 로고, 오른쪽은 링크 포함 텍스트
-    col1, col2 = st.columns([1, 4])  # 비율 조정 가능
+    col1, col2 = st.columns([2, 4])  # 비율 조정 가능
 
     with col1:
         st.image(logo_url, width=400)
