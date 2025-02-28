@@ -41,12 +41,12 @@ def show():
     col1, col2 = st.columns([1, 4])  # 비율 조정 가능
 
     with col1:
-        st.image(logo_url, width=80)
+        st.image(logo_url, width=200)
 
     with col2:
         st.markdown(
             """
-            <p style="text-align: right; font-size:50px; font-weight:bold; margin-top:60px;">
+            <p style="text-align: right; font-size:30px; font-weight:bold; margin-top:20px;">
                 <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
                    Py50: Generate Dose-Response Curve 활용
                 </a>
