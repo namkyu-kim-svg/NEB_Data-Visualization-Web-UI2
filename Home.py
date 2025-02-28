@@ -54,10 +54,10 @@ def show():
         </div>
 
         <!-- 기능 목록 부분 -->
-            [기능]<br>
-            1. LC50 Calculator<br>
-            2. Plot Curve<br>
-            3. Statistics Calculator<br>
+            [기능]
+            1. LC50 Calculator
+            2. Plot Curve
+            3. Statistics Calculator
             4. Molecular Drawer
         </div>
                 </a>
