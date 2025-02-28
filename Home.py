@@ -47,12 +47,13 @@ def show():
         st.markdown(
             """
         <!-- 제목(링크) 부분 -->
-        <div style="text-align: left; font-size:28px; font-weight:bold; margin-top:5px;">
+        <div style="text-align: left; font-size:28px; font-weight:bold; margin-top:5px; white-space: pre-wrap;">
             <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
-                Py50 프로그램 활용<br>
+                Py50 프로그램 활용<br/>
                 Generate Dose-Response Curve 활용
             </a>
         </div>
+
 
         <!-- 기능 목록 부분 -->
             [기능]
