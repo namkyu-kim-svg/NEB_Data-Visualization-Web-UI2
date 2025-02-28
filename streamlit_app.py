@@ -16,4 +16,4 @@ elif page == "통계 분석":
 elif page == "지도":
     show_map()
 # 하단에 내 Streamlit 앱 보기를 위한 링크 추가
-st.markdown("[내 Streamlit 앱 보기](https://share.streamlit.io/yourusername/yourapp)", unsafe_allow_html=True)
+st.markdown("[내 Streamlit 앱 보기](https://py50-app.streamlit.app////)", unsafe_allow_html=True)
