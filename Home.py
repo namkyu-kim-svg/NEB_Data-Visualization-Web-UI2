@@ -46,9 +46,9 @@ def show():
     with col2:
         st.markdown(
             """
-            <p style="text-align: right; font-size:16px; font-weight:bold; margin-top:20px;">
+            <p style="text-align: right; font-size:50px; font-weight:bold; margin-top:60px;">
                 <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
-                    내 Streamlit 앱 보기 → Py50: Generate Dose-Response Curve 활용
+                   Py50: Generate Dose-Response Curve 활용
                 </a>
             </p>
             """,
