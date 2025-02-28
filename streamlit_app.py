@@ -19,7 +19,9 @@ elif page == "지도":
 st.markdown(
     """
     <h1 style="text-align: center; font-size: 48px;">
-    내 Streamlit 앱 보기 -> Py50: Generate Dose-Response Curve 활용
+      <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
+        내 Streamlit 앱 보기 -> Py50: Generate Dose-Response Curve 활용
+      </a>
     </h1>
     """,
     unsafe_allow_html=True
