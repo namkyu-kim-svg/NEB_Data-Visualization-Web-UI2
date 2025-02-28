@@ -46,9 +46,14 @@ def show():
     with col2:
         st.markdown(
             """
-            <p style="text-align: right; font-size:28px; font-weight:bold; margin-top:20px;">
+            <p style="text-align: right; font-size:28px; font-weight:bold; margin-top:5px;">
                 <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
                    Py50: Generate Dose-Response Curve 활용
+                   [기능]
+                   1. LC50 Cakculator
+                   2. Plot Curve
+                   3. Statistics Calculator
+                   4. Molecular Drawer
                 </a>
             </p>
             """,
