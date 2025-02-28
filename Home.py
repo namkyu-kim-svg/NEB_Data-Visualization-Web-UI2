@@ -41,7 +41,7 @@ def show():
     col1, col2 = st.columns([1, 4])  # 비율 조정 가능
 
     with col1:
-        st.image(logo_url, width=200)
+        st.image(logo_url, width=400)
 
     with col2:
         st.markdown(
