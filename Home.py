@@ -46,7 +46,7 @@ def show():
     with col2:
         st.markdown(
         """
-        <div style="text-align: left; font-size:28px; font-weight:bold; margin-top:5px; white-space: pre-wrap;">
+        <div style="text-align: left; font-size:28px; font-weight:bold; margin-top:5px;">
             <a href="https://py50-app.streamlit.app/" style="text-decoration: none; color: inherit;">
                 Py50: Generate Dose-Response Curve 활용
         </div>
