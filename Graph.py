@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 import matplotlib as mpl
 
-# 한글 폰트 설정 (맑은고딕 사용)
-mpl.rcParams['font.family'] = 'Malgun Gothic'
+# Linux 환경에서 한글 폰트 설정 (NanumGothic)
+mpl.rcParams['font.family'] = 'NanumGothic'
 mpl.rcParams['axes.unicode_minus'] = False
 
 def show():
