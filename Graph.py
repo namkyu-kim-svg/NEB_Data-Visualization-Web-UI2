@@ -108,7 +108,7 @@ def show():
                 else:
                     # 그룹별로 선택한 Y 컬럼의 합계를 구해 스택 형태로 그리기
                     pivot_data = data.groupby(x_col)[stack_y].sum()
-                    pivot_data.plot(kind="bar", stacked=True, ax=ax)
+                    pivot_data.plot(kind="bar", stacked=True, ax=ax, rot=0)
             elif graph_type == "누적 그래프":
                 ax.fill_between(data[x_col], data[y_col], color=color, alpha=0.5)
 
