@@ -24,7 +24,9 @@ def show():
 
         if analysis_type in ["Spearman Correlation", "Pearson Correlation"]:
             method = "spearman" if analysis_type == "Spearman Correlation" else "pearson"
-            correlation_matrix = data.corr(method=method)
+            # 숫자형 열만 추출
+            numeric_data = data.select_dtypes(include=['number'])
+            correlation_matrix = numeric_data.corr(method=method)
             st.dataframe(correlation_matrix)
 
         elif analysis_type == "T-test":
@@ -54,4 +56,5 @@ def show():
 
 if __name__ == '__main__':
     show()
+
 
