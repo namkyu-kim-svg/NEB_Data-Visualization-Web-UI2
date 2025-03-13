@@ -13,6 +13,7 @@ selected = option_menu(
     menu_icon="cast",      # 전체 메뉴 아이콘
     default_index=0,       # 기본 선택 항목 (인덱스)
     orientation="vertical",  # 메뉴를 세로로 표시 (기본값: horizontal)
+    key="main_menu"       # 키를 설정하면 이 메뉴의 상태가 유지됩니다
 )
 
 # 메뉴 선택에 따라 페이지 함수 실행
