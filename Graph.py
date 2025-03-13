@@ -3,6 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from io import BytesIO
 
+# 한글 폰트 설정 (맑은고딕 사용)
+mpl.rcParams['font.family'] = 'Malgun Gothic'
+mpl.rcParams['axes.unicode_minus'] = False
+
 def show():
     st.title("그래프 페이지")
     st.write("샘플 데이터를 먼저 다운로드하거나, 직접 CSV/XLSX 파일을 업로드해 보세요.")
