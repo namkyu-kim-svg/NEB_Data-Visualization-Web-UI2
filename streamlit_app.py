@@ -5,6 +5,8 @@ from Statistics import show as show_statistics
 from Map import show as show_map
 from streamlit_option_menu import option_menu  # streamlit-option-menu 추가
 
+st.sidebar.title("메뉴")
+page = st.sidebar.selectbox("페이지 선택", ["홈", "그래프", "통계 분석", "지도"])
 # 사이드바 메뉴를 option_menu로 변경
 selected = option_menu(
     "메뉴",                # 메뉴 제목
