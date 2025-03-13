@@ -68,6 +68,43 @@ def show():
                     st.write(result)
             else:
                 st.warning("ANOVA Test를 위해 최소 2개 이상의 컬럼을 선택하세요.")
+                
+        # PCA 분석: 숫자형 데이터에 대해 PCA 수행 후 결과와 산점도 출력
+        elif analysis_type == "PCA 분석":
+            numeric_data = data.select_dtypes(include=['number'])
+            if numeric_data.shape[1] < 2:
+                st.warning("PCA 분석을 위해서는 최소 2개 이상의 숫자형 컬럼이 필요합니다.")
+            else:
+                pca = PCA(n_components=2)
+                principal_components = pca.fit_transform(numeric_data)
+                explained_var = pca.explained_variance_ratio_
+
+                st.write("PCA 분석 결과:")
+                st.write(f"주성분 1, 2의 설명 분산 비율: {explained_var[0]:.4f}, {explained_var[1]:.4f}")
+
+                # PCA 결과를 DataFrame으로 만들어 출력
+                pc_df = pd.DataFrame(data = principal_components, columns = ['PC1', 'PC2'])
+                st.dataframe(pc_df.head())
+
+                # PCA 산점도
+                fig, ax = plt.subplots(figsize=(8, 6))
+                ax.scatter(pc_df['PC1'], pc_df['PC2'], alpha=0.7)
+                ax.set_xlabel("PC1")
+                ax.set_ylabel("PC2")
+                ax.set_title("PCA 산점도")
+                st.pyplot(fig)
+
+        # Heatmap: 숫자형 데이터 상관계수를 Heatmap으로 시각화
+        elif analysis_type == "Heatmap":
+            numeric_data = data.select_dtypes(include=['number'])
+            if numeric_data.shape[1] < 2:
+                st.warning("Heatmap을 위해서는 최소 2개 이상의 숫자형 컬럼이 필요합니다.")
+            else:
+                corr_matrix = numeric_data.corr()
+                st.write("상관계수 Heatmap:")
+                fig, ax = plt.subplots(figsize=(10, 8))
+                sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
+                st.pyplot(fig)
 
 if __name__ == '__main__':
     show()
