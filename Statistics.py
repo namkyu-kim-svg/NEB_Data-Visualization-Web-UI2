@@ -35,11 +35,14 @@ def show():
 
             if pd.api.types.is_numeric_dtype(data[col1]) and pd.api.types.is_numeric_dtype(data[col2]):
                 result = ttest_ind(data[col1].dropna(), data[col2].dropna(), nan_policy="omit")
+                t_stat = result.statistic
+                p_val = result.pvalue
+                
                 st.write("T-test 결과:")
-                st.write(result)
+                st.write(f"- **T-statistic**: {t_stat:.4f}")
+                st.write(f"- **p-value**: {p_val:.4e}")
             else:
                 st.error("선택한 컬럼은 숫자형 데이터여야 합니다.")
-
         elif analysis_type == "ANOVA Test":
             selected_columns = st.multiselect("컬럼 선택", data.columns)
 
