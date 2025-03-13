@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from io import BytesIO
 import matplotlib as mpl
+import koreanize_matplotlib
 
 # Linux 환경에서 한글 폰트 설정 (NanumGothic)
 mpl.rcParams['font.family'] = 'NanumGothic'
