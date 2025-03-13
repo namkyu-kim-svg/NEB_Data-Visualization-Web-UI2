@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from io import BytesIO
+import matplotlib as mpl
 
 # 한글 폰트 설정 (맑은고딕 사용)
 mpl.rcParams['font.family'] = 'Malgun Gothic'
