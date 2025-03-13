@@ -7,8 +7,8 @@ def show():
     st.header("통계 분석 종류를 선택하세요")
 
     analysis_type = st.selectbox(
-        "통계 분석 종류",
-        ["Spearman Correlation", "Pearson Correlation", "T-test", "ANOVA Test"]
+        "분석 종류 선택",
+        ["Spearman Correlation", "Pearson Correlation", "T-test", "ANOVA Test", "PCA 분석", "Heatmap"]
     )
 
     uploaded_file = st.file_uploader("CSV 또는 Excel 파일을 업로드하세요", type=["csv", "xlsx"])
