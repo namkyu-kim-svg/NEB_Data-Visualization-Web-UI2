@@ -30,19 +30,31 @@ def show():
             st.dataframe(correlation_matrix)
 
         elif analysis_type == "T-test":
-            col1 = st.selectbox("첫 번째 컬럼 선택", data.columns)
-            col2 = st.selectbox("두 번째 컬럼 선택", data.columns)
-
-            if pd.api.types.is_numeric_dtype(data[col1]) and pd.api.types.is_numeric_dtype(data[col2]):
-                result = ttest_ind(data[col1].dropna(), data[col2].dropna(), nan_policy="omit")
-                t_stat = result.statistic
-                p_val = result.pvalue
-                
-                st.write("T-test 결과:")
-                st.write(f"- **T-statistic**: {t_stat:.4f}")
-                st.write(f"- **p-value**: {p_val:.4e}")
+            # 다중 선택을 통해 여러 컬럼 선택 (최소 2개 이상)
+            selected_cols = st.multiselect("T-test할 컬럼 선택 (최소 2개)", data.columns)
+            if len(selected_cols) < 2:
+                st.warning("적어도 2개 이상의 컬럼을 선택하세요.")
             else:
-                st.error("선택한 컬럼은 숫자형 데이터여야 합니다.")
+                # 선택된 컬럼 중 숫자형 데이터만 남김
+                numeric_cols = [col for col in selected_cols if pd.api.types.is_numeric_dtype(data[col])]
+                if len(numeric_cols) < 2:
+                    st.error("선택된 컬럼 중 숫자형 데이터가 2개 이상이어야 합니다.")
+                else:
+                    from itertools import combinations
+                    results = []
+                    for col1, col2 in combinations(numeric_cols, 2):
+                        group1 = data[col1].dropna()
+                        group2 = data[col2].dropna()
+                        res = ttest_ind(group1, group2, nan_policy="omit")
+                        results.append({
+                            "Column 1": col1,
+                            "Column 2": col2,
+                            "T-statistic": f"{res.statistic:.4f}",
+                            "p-value": f"{res.pvalue:.4e}"
+                        })
+                    df_results = pd.DataFrame(results)
+                    st.write("T-test 결과 (각 컬럼 조합):")
+                    st.table(df_results)
         elif analysis_type == "ANOVA Test":
             selected_columns = st.multiselect("컬럼 선택", data.columns)
 
