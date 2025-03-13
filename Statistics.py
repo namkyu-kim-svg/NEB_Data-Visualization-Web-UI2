@@ -136,11 +136,15 @@ def show():
 
         # Heatmap
         elif analysis_type == "Heatmap":
-            numeric_data = data.select_dtypes(include=['number'])
-            if numeric_data.shape[1] < 2:
-                st.warning("Heatmap을 위해서는 최소 2개 이상의 숫자형 컬럼이 필요합니다.")
+            st.subheader("Heatmap 설정")
+            numeric_cols_all = data.select_dtypes(include=['number']).columns.tolist()
+            selected_cols = st.multiselect("Heatmap에 사용할 숫자형 컬럼 선택 (최소 2개)",
+                                           numeric_cols_all,
+                                           default=numeric_cols_all)
+            if len(selected_cols) < 2:
+                st.warning("Heatmap을 위해서는 최소 2개 이상의 숫자형 컬럼을 선택하세요.")
             else:
-                corr_matrix = numeric_data.corr()
+                corr_matrix = data[selected_cols].corr()
                 st.write("상관계수 Heatmap:")
                 fig, ax = plt.subplots(figsize=(10, 8))
                 sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
