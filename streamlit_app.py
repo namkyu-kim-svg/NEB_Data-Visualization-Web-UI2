@@ -15,17 +15,12 @@ with st.sidebar:
         default_index=0,                # 기본 선택 항목
     )
 
-# 선택된 메뉴에 따라 내용 표시
 if selected == "홈":
-    st.title("홈 페이지")
     st.write("홈 페이지 내용")
 elif selected == "그래프":
-    st.title("그래프 페이지")
     st.write("그래프 페이지 내용")
 elif selected == "통계 분석":
-    st.title("통계 분석 페이지")
     st.write("통계 분석 페이지 내용")
 elif selected == "지도":
-    st.title("지도 페이지")
     st.write("지도 페이지 내용")
 
