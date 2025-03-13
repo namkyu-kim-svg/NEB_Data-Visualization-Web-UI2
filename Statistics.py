@@ -19,7 +19,8 @@ def pca_biplot(df, numeric_cols, target_col=None, scale_data=True):
     target_col  : (선택) 관측치의 그룹(범주) 정보를 담은 컬럼명 (색상 구분)
     scale_data  : True면 StandardScaler로 데이터 스케일링
 
-    Returns: matplotlib Figure 객체 (Streamlit에서 st.pyplot(fig)로 표시)
+    Returns: matplotlib Figure 객체 (Streamlit에서 st.pyplot(fig)로 표시),
+             (pc1_var, pc2_var) 주성분 1,2의 분산 비율
     """
     # 1) 숫자형 데이터 추출 & 결측 제거
     X = df[numeric_cols].dropna()
@@ -134,7 +135,7 @@ def show():
                     st.write("ANOVA Test 결과:")
                     st.write(result)
 
-        # Heatmap
+        # Heatmap: 사용자가 원하는 숫자형 컬럼 다중 선택
         elif analysis_type == "Heatmap":
             st.subheader("Heatmap 설정")
             numeric_cols_all = data.select_dtypes(include=['number']).columns.tolist()
@@ -158,7 +159,7 @@ def show():
             # 사용자에게 숫자형 컬럼 선택
             selected_numeric = st.multiselect("PCA에 사용할 숫자형 컬럼 선택", numeric_cols_all,
                                               default=numeric_cols_all)
-            # (선택) 그룹(범주형) 컬럼
+            # (선택) 그룹(범주) 컬럼
             group_options = ["(없음)"] + [c for c in data.columns if data[c].dtype == object]
             group_col = st.selectbox("그룹(범주) 컬럼(색상 구분)", group_options)
 
@@ -175,6 +176,7 @@ def show():
                     st.write(f"주성분 1 설명 분산 비율: {pc1_var:.2f}%")
                     st.write(f"주성분 2 설명 분산 비율: {pc2_var:.2f}%")
                     st.pyplot(fig)
+
 
 if __name__ == '__main__':
     show()
