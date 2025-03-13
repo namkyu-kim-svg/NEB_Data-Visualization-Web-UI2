@@ -1,10 +1,18 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+from io import BytesIO
 from scipy.stats import ttest_ind, f_oneway
+from itertools import combinations
+
+# PCA 분석을 위한 라이브러리
+from sklearn.decomposition import PCA
+# Heatmap 생성을 위한 seaborn
+import seaborn as sns
 
 def show():
     st.title("통계 분석 페이지")
-    st.header("통계 분석 종류를 선택하세요")
+    st.header("분석 종류를 선택하세요")
 
     analysis_type = st.selectbox(
         "분석 종류 선택",
@@ -14,6 +22,7 @@ def show():
     uploaded_file = st.file_uploader("CSV 또는 Excel 파일을 업로드하세요", type=["csv", "xlsx"])
 
     if uploaded_file:
+        # 파일 읽기
         if uploaded_file.name.endswith(".csv"):
             data = pd.read_csv(uploaded_file)
         elif uploaded_file.name.endswith(".xlsx"):
@@ -22,25 +31,23 @@ def show():
         st.write("업로드된 데이터 미리보기:")
         st.dataframe(data)
 
+        # 상관계수 계산
         if analysis_type in ["Spearman Correlation", "Pearson Correlation"]:
             method = "spearman" if analysis_type == "Spearman Correlation" else "pearson"
-            # 숫자형 열만 추출
             numeric_data = data.select_dtypes(include=['number'])
             correlation_matrix = numeric_data.corr(method=method)
             st.dataframe(correlation_matrix)
 
+        # T-test: 선택한 여러 컬럼의 모든 2개 조합에 대해 T-test 수행
         elif analysis_type == "T-test":
-            # 다중 선택을 통해 여러 컬럼 선택 (최소 2개 이상)
             selected_cols = st.multiselect("T-test할 컬럼 선택 (최소 2개)", data.columns)
             if len(selected_cols) < 2:
                 st.warning("적어도 2개 이상의 컬럼을 선택하세요.")
             else:
-                # 선택된 컬럼 중 숫자형 데이터만 남김
                 numeric_cols = [col for col in selected_cols if pd.api.types.is_numeric_dtype(data[col])]
                 if len(numeric_cols) < 2:
                     st.error("선택된 컬럼 중 숫자형 데이터가 2개 이상이어야 합니다.")
                 else:
-                    from itertools import combinations
                     results = []
                     for col1, col2 in combinations(numeric_cols, 2):
                         group1 = data[col1].dropna()
@@ -55,10 +62,13 @@ def show():
                     df_results = pd.DataFrame(results)
                     st.write("T-test 결과 (각 컬럼 조합):")
                     st.table(df_results)
-        elif analysis_type == "ANOVA Test":
-            selected_columns = st.multiselect("컬럼 선택", data.columns)
 
-            if len(selected_columns) >= 2:
+        # ANOVA Test: 선택한 여러 컬럼에 대해 ANOVA Test 수행
+        elif analysis_type == "ANOVA Test":
+            selected_columns = st.multiselect("ANOVA Test할 컬럼 선택 (최소 2개)", data.columns)
+            if len(selected_columns) < 2:
+                st.warning("ANOVA Test를 위해 최소 2개 이상의 컬럼을 선택하세요.")
+            else:
                 numeric_columns = [col for col in selected_columns if pd.api.types.is_numeric_dtype(data[col])]
                 if len(numeric_columns) < 2:
                     st.error("선택한 컬럼 중 최소 2개는 숫자형 데이터여야 합니다.")
@@ -66,9 +76,7 @@ def show():
                     result = f_oneway(*(data[col].dropna() for col in numeric_columns))
                     st.write("ANOVA Test 결과:")
                     st.write(result)
-            else:
-                st.warning("ANOVA Test를 위해 최소 2개 이상의 컬럼을 선택하세요.")
-                
+
         # PCA 분석: 숫자형 데이터에 대해 PCA 수행 후 결과와 산점도 출력
         elif analysis_type == "PCA 분석":
             numeric_data = data.select_dtypes(include=['number'])
@@ -108,5 +116,6 @@ def show():
 
 if __name__ == '__main__':
     show()
+
 
 
