@@ -61,9 +61,11 @@ def show():
                     "GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
         }
     }
-
     selected_tile = st.selectbox("지도 스타일 선택", list(tile_options.keys()))
     tile_info = tile_options[selected_tile]
+
+    # Zoom Level을 직접 입력하는 위젯 추가 (1~20 사이, 기본값 12)
+    zoom_level = st.number_input("Zoom Level", min_value=1, max_value=20, value=12, step=1)
 
     st.write("CSV 또는 Excel 파일을 업로드해 주세요.")
     uploaded_file = st.file_uploader("파일 업로드", type=["csv", "xlsx"])
@@ -109,10 +111,10 @@ def show():
             avg_lat = data['lat_dec'].mean() if data['lat_dec'].notnull().any() else 36.5
             avg_lon = data['lon_dec'].mean() if data['lon_dec'].notnull().any() else 127.5
 
-        # 5) Folium 지도 생성
+        # 5) Folium 지도 생성 (Zoom Level을 zoom_start에 반영)
         if "attr" in tile_info:
             # attribution이 필요한 커스텀 타일
-            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=None)
+            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=zoom_level, tiles=None)
             folium.TileLayer(
                 tiles=tile_info["tiles"],
                 attr=tile_info["attr"],
@@ -120,7 +122,7 @@ def show():
             ).add_to(m)
         else:
             # 일반 타일 (OpenStreetMap, CartoDB 등)
-            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=12, tiles=tile_info["tiles"])
+            m = folium.Map(location=[avg_lat, avg_lon], zoom_start=zoom_level, tiles=tile_info["tiles"])
 
         # 6) 마커/서클 표시
         if mode == "정점도":
@@ -135,11 +137,9 @@ def show():
                     folium.map.Marker(
                         [row['lat_dec'], row['lon_dec']],
                         icon=folium.DivIcon(
-                            html=(
-                                f'<div style="white-space: nowrap; font-size:12px; '
-                                f'font-weight:bold; color:{text_color};">'
-                                f'{row[label_col]}</div>'
-                            )
+                            html=(f'<div style="white-space: nowrap; font-size:12px; '
+                                  f'font-weight:bold; color:{text_color};">'
+                                  f'{row[label_col]}</div>')
                         )
                     ).add_to(m)
         else:
@@ -163,4 +163,5 @@ def show():
 
 if __name__ == '__main__':
     show()
+
 
