@@ -12,6 +12,7 @@ selected = option_menu(
     icons=["house", "bar-chart", "calculator", "map"],  # 각 항목의 아이콘
     menu_icon="cast",      # 전체 메뉴 아이콘
     default_index=0,       # 기본 선택 항목 (인덱스)
+    orientation="vertical",  # 메뉴를 세로로 표시 (기본값: horizontal)
 )
 
 # 메뉴 선택에 따라 페이지 함수 실행
