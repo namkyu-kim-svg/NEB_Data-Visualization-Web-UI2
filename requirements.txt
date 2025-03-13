@@ -11,3 +11,4 @@ folium         # 지도 시각화
 streamlit-folium
 pydeck         # (선택) Streamlit에서 Pydeck 사용 시
 koreanize-matplotlib  # (선택) 한글 폰트 적용 시
+scikit-learn   # PCA 분석에 필요
